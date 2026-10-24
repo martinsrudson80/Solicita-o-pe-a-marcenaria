@@ -1,0 +1,6 @@
+{
+  "name": "CorteMarcenaria SaaS - Gestão de Pedidos MDF e Ferragens",
+  "description": "Sistema SaaS para marcenarias: solicitação de peças sob medida em MDF, fitagem de borda, ferragens e insumos com geração de PDF e envio via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
