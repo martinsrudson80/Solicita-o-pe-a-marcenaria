@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Empresa, TemaId } from '../types';
-import { TEMAS } from '../utils/theme';
 import {
   X,
   Building,
-  Palette,
   Image,
   Phone,
   FileText,
   MapPin,
-  Check,
   Upload,
 } from 'lucide-react';
 
@@ -77,7 +74,7 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150 text-slate-900">
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Building size={18} className="text-amber-400" />
@@ -93,51 +90,8 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[82vh] overflow-y-auto">
-          {/* 1. SELETOR DE TEMAS & CORES */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
-              <Palette size={15} className="text-amber-600" />
-              <span>Personalização Visual (Cores & Paleta do App)</span>
-            </div>
-            <p className="text-xs text-slate-500">
-              Escolha a identidade cromática que melhor se adapta à sua oficina ou tela
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-              {(Object.keys(TEMAS) as TemaId[]).map((tId) => {
-                const config = TEMAS[tId];
-                const selecionado = tema === tId;
-
-                return (
-                  <button
-                    key={tId}
-                    type="button"
-                    onClick={() => setTema(tId)}
-                    className={`p-3 rounded-xl border text-left transition-all relative ${
-                      selecionado
-                        ? 'border-slate-900 ring-2 ring-slate-900/10 bg-slate-50 shadow-xs'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-4 h-4 rounded-full shadow-inner"
-                          style={{ backgroundColor: config.previewCor }}
-                        />
-                        <span className="text-xs font-bold text-slate-800">{config.nome}</span>
-                      </div>
-                      {selecionado && <Check size={14} className="text-slate-900" />}
-                    </div>
-                    <p className="text-[10px] text-slate-500 leading-tight">{config.descricao}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* 2. DADOS CORPORATIVOS & NOME NO CABEÇALHO */}
-          <div className="pt-4 border-t border-slate-100 space-y-4">
+          <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider">
               <Building size={15} className="text-amber-600" />
               <span>Identidade Corporativa & Cabeçalho</span>
@@ -153,7 +107,7 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
                 value={nomeFantasia}
                 onChange={(e) => setNomeFantasia(e.target.value)}
                 placeholder="Ex: Marcenaria Costa"
-                className="w-full h-10 px-3 text-sm font-bold bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                className="w-full h-11 px-3.5 text-sm font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
               />
               <p className="text-[11px] text-slate-500 mt-1">
                 Este nome será exibido em destaque no topo do sistema para todos os marceneiros e nos relatórios em PDF.
@@ -162,31 +116,31 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Razão Social</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Razão Social</label>
                 <input
                   type="text"
                   value={razaoSocial}
                   onChange={(e) => setRazaoSocial(e.target.value)}
                   placeholder="Ex: Costa Móveis Sob Medida Ltda"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:bg-white"
+                  className="w-full h-10 px-3 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">CNPJ / CPF</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">CNPJ / CPF</label>
                 <input
                   type="text"
                   value={cnpjOuCpf}
                   onChange={(e) => setCnpjOuCpf(e.target.value)}
                   placeholder="00.000.000/0001-00"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:bg-white"
+                  className="w-full h-10 px-3 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 mb-1">
                   Telefone da Oficina
                 </label>
                 <input
@@ -194,7 +148,7 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   placeholder="(11) 98765-4321"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:bg-white"
+                  className="w-full h-10 px-3 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
@@ -207,7 +161,7 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
                   value={whatsappFabrica}
                   onChange={(e) => setWhatsappFabrica(e.target.value)}
                   placeholder="5511999998888 (com DDI e DDD)"
-                  className="w-full h-10 px-3 text-xs bg-emerald-50/50 border border-emerald-300 rounded-xl font-mono focus:bg-white"
+                  className="w-full h-10 px-3 text-xs font-bold text-slate-900 bg-white border border-emerald-400 rounded-xl font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
                 <p className="text-[10px] text-slate-500 mt-0.5">
                   Número pré-carregado no botão "Enviar via WhatsApp" dos pedidos
@@ -274,51 +228,51 @@ export const ConfiguracoesModal: React.FC<ConfiguracoesModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div className="sm:col-span-2">
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">Rua / Av</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Rua / Av</label>
                 <input
                   type="text"
                   value={rua}
                   onChange={(e) => setRua(e.target.value)}
-                  className="w-full h-9 px-2.5 text-xs bg-slate-50 border border-slate-300 rounded-lg"
+                  className="w-full h-9 px-2.5 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">Número</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Número</label>
                 <input
                   type="text"
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
-                  className="w-full h-9 px-2.5 text-xs bg-slate-50 border border-slate-300 rounded-lg"
+                  className="w-full h-9 px-2.5 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">Bairro</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Bairro</label>
                 <input
                   type="text"
                   value={bairro}
                   onChange={(e) => setBairro(e.target.value)}
-                  className="w-full h-9 px-2.5 text-xs bg-slate-50 border border-slate-300 rounded-lg"
+                  className="w-full h-9 px-2.5 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">Cidade</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">Cidade</label>
                 <input
                   type="text"
                   value={cidade}
                   onChange={(e) => setCidade(e.target.value)}
-                  className="w-full h-9 px-2.5 text-xs bg-slate-50 border border-slate-300 rounded-lg"
+                  className="w-full h-9 px-2.5 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">UF</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">UF</label>
                 <input
                   type="text"
                   value={estado}
                   onChange={(e) => setEstado(e.target.value)}
-                  className="w-full h-9 px-2.5 text-xs bg-slate-50 border border-slate-300 rounded-lg"
+                  className="w-full h-9 px-2.5 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
             </div>

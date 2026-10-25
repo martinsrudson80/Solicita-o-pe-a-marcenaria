@@ -2,7 +2,11 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Empresa, SolicitacaoPedido } from '../types';
 
-export const gerarRelatorioPedidoPdf = (pedido: SolicitacaoPedido, empresa: Empresa) => {
+export const gerarRelatorioPedidoPdf = (
+  pedido: SolicitacaoPedido,
+  empresa: Empresa,
+  download: boolean = true
+) => {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -268,7 +272,18 @@ export const gerarRelatorioPedidoPdf = (pedido: SolicitacaoPedido, empresa: Empr
 
   // Nome do arquivo para download
   const nomeArquivo = `Pedido_${pedido.codigo}_${empresa.nomeFantasia.replace(/\s+/g, '_')}.pdf`;
-  doc.save(nomeArquivo);
+  if (download) {
+    doc.save(nomeArquivo);
+  }
 
-  return doc;
+  let blob: Blob | null = null;
+  let file: File | null = null;
+  try {
+    blob = doc.output('blob');
+    file = new File([blob], nomeArquivo, { type: 'application/pdf' });
+  } catch (err) {
+    // Fallback se Blob não puder ser gerado
+  }
+
+  return { doc, blob, file, nomeArquivo };
 };

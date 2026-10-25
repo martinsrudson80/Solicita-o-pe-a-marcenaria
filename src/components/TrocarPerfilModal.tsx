@@ -49,11 +49,11 @@ export const TrocarPerfilModal: React.FC<TrocarPerfilModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 overflow-y-auto">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
-        <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-150 text-slate-900">
+        <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <UserCheck size={18} className="text-amber-400" />
-            <h3 className="text-sm font-bold">Alternar Perfil ou Empresa (Multi-Marcenaria)</h3>
+            <h3 className="text-sm font-bold text-white" style={{ color: '#ffffff' }}>Alternar Perfil ou Empresa (Multi-Marcenaria)</h3>
           </div>
           <button
             type="button"
@@ -64,7 +64,7 @@ export const TrocarPerfilModal: React.FC<TrocarPerfilModalProps> = ({
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 flex-1 overflow-y-auto">
           {/* Seção 1: Selecionar Usuário */}
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -190,7 +190,7 @@ export const TrocarPerfilModal: React.FC<TrocarPerfilModalProps> = ({
           </div>
         </div>
 
-        <div className="px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+        <div className="px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between shrink-0">
           <button
             type="button"
             onClick={() => {

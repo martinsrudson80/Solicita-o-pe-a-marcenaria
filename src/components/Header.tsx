@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Empresa, Usuario } from '../types';
+import { AbaAtual, Empresa, Usuario } from '../types';
 import { TEMAS } from '../utils/theme';
 import {
   MoreVertical,
@@ -24,8 +24,8 @@ interface HeaderProps {
   onAbrirHistorico: () => void;
   onAbrirEquipe: () => void;
   onAbrirTrocarPerfil: () => void;
-  abaAtual: 'dashboard' | 'clientes' | 'equipe';
-  setAbaAtual: (aba: 'dashboard' | 'clientes' | 'equipe') => void;
+  abaAtual: AbaAtual;
+  setAbaAtual: (aba: AbaAtual) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -114,18 +114,6 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             Clientes & Obras
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setAbaAtual('equipe')}
-            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
-              abaAtual === 'equipe'
-                ? 'bg-amber-600 text-white shadow-xs'
-                : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
-            }`}
-          >
-            Equipe da Oficina
           </button>
         </nav>
 
@@ -226,19 +214,21 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                 </button>
 
+
+
                 <button
                   type="button"
                   onClick={() => {
                     setMenuAberto(false);
-                    onAbrirHistorico();
+                    setAbaAtual('pecas_projeto');
                   }}
                   className="w-full px-4 py-2.5 text-left text-xs font-semibold hover:bg-slate-50 flex items-center gap-2.5 text-slate-700 hover:text-slate-900 transition-colors"
                 >
-                  <History size={15} className="text-purple-600" />
+                  <Layers size={15} className="text-amber-600" />
                   <div>
-                    <span>Histórico Geral de Pedidos</span>
+                    <span>Histórico de Peças por Projeto</span>
                     <span className="block text-[10px] font-normal text-slate-400">
-                      Ordens de corte e produção
+                      Cortes de MDF organizados por projeto
                     </span>
                   </div>
                 </button>

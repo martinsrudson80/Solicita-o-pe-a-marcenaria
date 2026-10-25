@@ -43,7 +43,7 @@ const CATALOGO_PRESETS: ItemPreset[] = [
   // Acessórios e Mobilidade
   { categoria: 'acessorios', nome: 'Cabideiro Oblongo', unidadePadrao: 'barras', qtdSugerida: 1 },
   { categoria: 'acessorios', nome: 'Suporte de Cabideiro Oblongo', unidadePadrao: 'pares', qtdSugerida: 1 },
-  { categoria: 'acessorios', nome: 'Suporte Cabideiro Oblongo Central', unidadePadrao: 'unidades', qtdSugerida: 1 },
+  { categoria: 'acessorios', nome: 'Suporte Cabideiro Oblongo Centra', unidadePadrao: 'unidades', qtdSugerida: 1 },
   { categoria: 'acessorios', nome: 'Rodízio de Silicone 50mm com Trava', unidadePadrao: 'unidades', qtdSugerida: 4 },
   { categoria: 'acessorios', nome: 'Rodízio de Silicone 50mm sem Trava', unidadePadrao: 'unidades', qtdSugerida: 4 },
 

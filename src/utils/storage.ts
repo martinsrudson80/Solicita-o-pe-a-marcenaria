@@ -406,6 +406,12 @@ export const saveUsuarios = (usuarios: Usuario[]) => {
   localStorage.setItem(STORAGE_KEYS.USUARIOS, JSON.stringify(usuarios));
 };
 
+export const deleteUsuario = (id: string) => {
+  const all = getUsuarios();
+  const filtered = all.filter((u) => u.id !== id);
+  saveUsuarios(filtered);
+};
+
 export const getUsuarioAtivo = (): Usuario => {
   const empresa = getEmpresaAtiva();
   const usuarios = getUsuarios(empresa.id);

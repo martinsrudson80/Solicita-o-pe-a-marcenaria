@@ -13,6 +13,9 @@ export type StatusPedido =
   | 'em_producao'
   | 'concluido';
 
+export type AbaAtual = 'dashboard' | 'clientes' | 'equipe' | 'pecas_projeto';
+
+
 export type TemaId = 'azul' | 'grafite' | 'madeira' | 'verde' | 'escuro';
 
 export interface Endereco {

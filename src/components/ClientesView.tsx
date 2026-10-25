@@ -185,13 +185,12 @@ export const ClientesView: React.FC<ClientesViewProps> = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          if (confirm(`Excluir o cliente ${cliente.nome}?`)) {
-                            onExcluirCliente(cliente.id);
-                          }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onExcluirCliente(cliente.id);
                         }}
                         className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                        title="Excluir cliente"
+                        title="Excluir Perfil do Cliente"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -385,20 +384,35 @@ export const ClientesView: React.FC<ClientesViewProps> = ({
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setModalAberto(false)}
-                  className="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-xs"
-                >
-                  Salvar Cliente
-                </button>
+              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                {clienteEmEdicao ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onExcluirCliente(clienteEmEdicao.id);
+                      setModalAberto(false);
+                    }}
+                    className="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5"
+                  >
+                    <Trash2 size={14} />
+                    <span>Excluir Cliente</span>
+                  </button>
+                ) : <div />}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalAberto(false)}
+                    className="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-xs"
+                  >
+                    Salvar Cliente
+                  </button>
+                </div>
               </div>
             </form>
           </div>

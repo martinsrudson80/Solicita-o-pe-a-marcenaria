@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Cliente, Empresa, FerragemInsumo, FitagemBorda, PecaMdf, SolicitacaoPedido, Usuario } from '../types';
+import { TEMAS } from '../utils/theme';
 import { PecaFitagemVisualizer } from './PecaFitagemVisualizer';
 import { NumpadModal } from './NumpadModal';
 import {
@@ -24,13 +25,14 @@ interface NovaSolicitacaoModalProps {
   onClose: () => void;
   empresa: Empresa;
   usuarioAtivo: Usuario;
+  usuarios?: Usuario[];
   clientes: Cliente[];
   onSalvarPedido: (pedido: Omit<SolicitacaoPedido, 'id' | 'codigo' | 'dataCriacao' | 'dataAtualizacao'>) => SolicitacaoPedido;
   onSalvarEEnviarWhatsApp: (pedido: SolicitacaoPedido) => void;
   onNovoClienteModal: () => void;
 }
 
-const MATERIAIS_OPCOES = ['MDF', 'MDP', 'Compensado Naval', 'Fórmica / Revestido', 'Madeira Maciça'];
+const MATERIAIS_OPCOES = ['MDF', 'MDP', 'Compensado Naval', 'Fórmica / Revestido', 'Madeira Maciça', 'Porta de Vidro / Espelho'];
 const ESPESSURAS_OPCOES = [6, 9, 12, 15, 18, 25, 30, 36, 50];
 const CORES_SUGERIDAS = [
   'Louro Freijó',
@@ -73,7 +75,7 @@ const PRESETS_FERRAGENS_POR_CATEGORIA: Record<string, string[]> = {
   acessorios: [
     'Cabideiro Oblongo',
     'Suporte de Cabideiro Oblongo',
-    'Suporte Cabideiro Oblongo Central',
+    'Suporte Cabideiro Oblongo Centra',
     'Rodízio de Silicone 50mm com Trava',
     'Rodízio de Silicone 50mm sem Trava',
     'Outro acessório...',
@@ -108,11 +110,13 @@ export const NovaSolicitacaoModal: React.FC<NovaSolicitacaoModalProps> = ({
   onClose,
   empresa,
   usuarioAtivo,
+  usuarios = [],
   clientes,
   onSalvarPedido,
   onSalvarEEnviarWhatsApp,
   onNovoClienteModal,
 }) => {
+  const temaConfig = TEMAS[empresa.tema] || TEMAS.azul;
   // Seção 01: Cliente e Projeto
   const [projetoNome, setProjetoNome] = useState('');
   const [clienteId, setClienteId] = useState<string>(clientes[0]?.id || '');
@@ -282,15 +286,17 @@ export const NovaSolicitacaoModal: React.FC<NovaSolicitacaoModalProps> = ({
       return;
     }
 
+    const responsavel = (usuarios && usuarios.find((u) => u.id === responsavelId)) || usuarioAtivo;
+
     const payload: Omit<SolicitacaoPedido, 'id' | 'codigo' | 'dataCriacao' | 'dataAtualizacao'> = {
       empresaId: empresa.id,
       clienteId: clienteSelecionado.id,
       clienteNome: clienteSelecionado.nome,
       clienteTelefone: clienteSelecionado.telefone,
       clienteEndereco: `${clienteSelecionado.enderecoObra.rua}, ${clienteSelecionado.enderecoObra.numero} - ${clienteSelecionado.enderecoObra.bairro}, ${clienteSelecionado.enderecoObra.cidade}/${clienteSelecionado.enderecoObra.estado}`,
-      solicitanteId: usuarioAtivo.id,
-      solicitanteNome: usuarioAtivo.nome,
-      solicitanteCargo: usuarioAtivo.cargo,
+      solicitanteId: responsavel.id,
+      solicitanteNome: responsavel.nome,
+      solicitanteCargo: responsavel.cargo,
       projetoNome: projetoNome.trim(),
       status: 'aguardando_aprovacao',
       pecasMdf: pecas,
@@ -439,10 +445,17 @@ export const NovaSolicitacaoModal: React.FC<NovaSolicitacaoModalProps> = ({
                   onChange={(e) => setResponsavelId(e.target.value)}
                   className="w-full h-12 px-3.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 appearance-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all cursor-pointer"
                 >
-                  <option value={usuarioAtivo.id}>{usuarioAtivo.nome}</option>
-                  <option value="user-ricardo">Ricardo Almeida</option>
-                  <option value="user-tiago">Tiago Alves</option>
-                  <option value="user-lucas">Lucas Pinheiro</option>
+                  {usuarios && usuarios.length > 0 ? (
+                    usuarios.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.nome} ({u.cargo})
+                      </option>
+                    ))
+                  ) : (
+                    <option value={usuarioAtivo.id}>
+                      {usuarioAtivo.nome} ({usuarioAtivo.cargo})
+                    </option>
+                  )}
                 </select>
                 <ChevronDown size={18} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               </div>

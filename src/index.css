@@ -1,1 +1,100 @@
 @import "tailwindcss";
+
+/* Regras globais de legibilidade e contraste: todas as letras e números preenchidos devem ser 100% visíveis */
+
+/* Inputs e formulários */
+input, textarea, select {
+  color: #0f172a !important; /* slate-900 para máxima legibilidade */
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  color: #0f172a !important;
+  font-weight: 600;
+}
+
+/* Placeholders nítidos e legíveis */
+input::placeholder,
+textarea::placeholder {
+  color: #64748b !important; /* slate-500 nítido */
+  opacity: 1 !important;
+}
+
+/* Quando o campo recebe foco ou já está preenchido */
+input:focus,
+textarea:focus,
+select:focus {
+  color: #020617 !important; /* slate-950 */
+  background-color: #ffffff !important;
+}
+
+/* Suporte contra autofill do navegador */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Proteção para fundos escuros: cabeçalhos e banners pretos/escuros devem SEMPRE ter texto branco visível */
+.bg-slate-900,
+.bg-slate-800,
+.bg-slate-950,
+.bg-black {
+  color: #ffffff;
+}
+
+.bg-slate-900 h1, .bg-slate-900 h2, .bg-slate-900 h3, .bg-slate-900 h4, .bg-slate-900 h5, .bg-slate-900 h6,
+.bg-slate-800 h1, .bg-slate-800 h2, .bg-slate-800 h3, .bg-slate-800 h4, .bg-slate-800 h5, .bg-slate-800 h6,
+.bg-black h1, .bg-black h2, .bg-black h3, .bg-black h4, .bg-black h5, .bg-black h6 {
+  color: #ffffff;
+}
+
+.text-white {
+  color: #ffffff !important;
+}
+
+.text-amber-400 {
+  color: #fbbf24 !important;
+}
+
+.text-amber-300 {
+  color: #fcd34d !important;
+}
+
+.text-slate-200 {
+  color: #e2e8f0 !important;
+}
+
+.text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+.text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Tabelas e visualização de dados */
+table thead tr {
+  color: #0f172a !important;
+  background-color: #f1f5f9 !important;
+}
+
+table thead th {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+/* Garante legibilidade total de textos entre parênteses em cabeçalhos, tabelas e labels */
+th span, th div, td span, label span {
+  opacity: 1 !important;
+}
+
+table tbody td {
+  color: #0f172a !important;
+}
+

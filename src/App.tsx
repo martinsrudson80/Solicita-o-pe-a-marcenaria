@@ -4,12 +4,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Cliente, Empresa, SolicitacaoPedido, StatusPedido, Usuario } from './types';
+import { AbaAtual, Cliente, Empresa, SolicitacaoPedido, StatusPedido, Usuario } from './types';
 import {
   addCliente,
   addPedido,
   deleteCliente,
   deletePedido,
+  deleteUsuario,
   getEmpresaAtiva,
   getEmpresas,
   getClientes,
@@ -29,6 +30,7 @@ import { Header } from './components/Header';
 import { DashboardView } from './components/DashboardView';
 import { ClientesView } from './components/ClientesView';
 import { EquipeView } from './components/EquipeView';
+import { HistoricoPecasView } from './components/HistoricoPecasView';
 import { NovaSolicitacaoModal } from './components/NovaSolicitacaoModal';
 import { PedidoDetalhesModal } from './components/PedidoDetalhesModal';
 import { ConfiguracoesModal } from './components/ConfiguracoesModal';
@@ -46,7 +48,7 @@ export default function App() {
   const [pedidos, setPedidos] = useState<SolicitacaoPedido[]>([]);
 
   // Abas de visualização
-  const [abaAtual, setAbaAtual] = useState<'dashboard' | 'clientes' | 'equipe'>('dashboard');
+  const [abaAtual, setAbaAtual] = useState<AbaAtual>('dashboard');
 
   // Modais
   const [modalNovaSolicitacao, setModalNovaSolicitacao] = useState(false);
@@ -202,9 +204,13 @@ export default function App() {
   };
 
   const handleRemoverUsuario = (id: string) => {
-    const lista = usuarios.filter((u) => u.id !== id);
-    saveUsuarios(lista);
-    setUsuarios(lista);
+    deleteUsuario(id);
+    const updated = getUsuarios(empresaAtiva?.id);
+    setUsuarios(updated);
+    if (usuarioAtivo?.id === id && updated.length > 0) {
+      setUsuarioAtivo(updated[0]);
+      setUsuarioAtivoId(updated[0].id);
+    }
   };
 
   if (!empresaAtiva || !usuarioAtivo) {
@@ -222,9 +228,22 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen font-sans ${
-        empresaAtiva.tema === 'escuro' ? 'bg-slate-950 text-slate-100' : 'bg-slate-100/70 text-slate-900'
+      className={`min-h-screen font-sans transition-colors duration-200 ${
+        empresaAtiva.tema === 'escuro' ? 'bg-slate-950 text-slate-100' : 'text-slate-900'
       }`}
+      style={{
+        backgroundColor: empresaAtiva.tema === 'escuro'
+          ? '#090d16'
+          : empresaAtiva.tema === 'verde'
+          ? '#f2fbf6'
+          : empresaAtiva.tema === 'azul'
+          ? '#f0f5ff'
+          : empresaAtiva.tema === 'madeira'
+          ? '#fdf8f5'
+          : empresaAtiva.tema === 'grafite'
+          ? '#f1f5f9'
+          : '#f8fafc'
+      }}
     >
       {/* CABEÇALHO PRINCIPAL COM O NOME DA MARCENARIA EM DESTAQUE E TRÊS PONTINHOS ⋮ */}
       <Header
@@ -270,6 +289,19 @@ export default function App() {
           />
         )}
 
+        {abaAtual === 'pecas_projeto' && (
+          <HistoricoPecasView
+            pedidos={pedidos}
+            empresa={empresaAtiva}
+            usuarioAtivo={usuarioAtivo}
+            onSelecionarPedido={(pedido) => setPedidoSelecionado(pedido)}
+            onNovaSolicitacao={() => {
+              setClientePreSelecionadoId(null);
+              setModalNovaSolicitacao(true);
+            }}
+          />
+        )}
+
         {abaAtual === 'equipe' && (
           <EquipeView
             usuarios={usuarios}
@@ -288,6 +320,7 @@ export default function App() {
         onClose={() => setModalNovaSolicitacao(false)}
         empresa={empresaAtiva}
         usuarioAtivo={usuarioAtivo}
+        usuarios={usuarios}
         clientes={clientes}
         onSalvarPedido={handleSalvarPedido}
         onSalvarEEnviarWhatsApp={handleSalvarEEnviarWhatsApp}
@@ -306,6 +339,10 @@ export default function App() {
         usuarioAtivo={usuarioAtivo}
         onAtualizarStatus={handleAtualizarStatusPedido}
         onExcluirPedido={handleExcluirPedido}
+        onAtualizarPedido={(pedidoAtualizado) => {
+          setPedidos(getPedidos(empresaAtiva?.id));
+          setPedidoSelecionado(pedidoAtualizado);
+        }}
       />
 
       {/* MODAL: CONFIGURAÇÕES E PERSONALIZAÇÃO VISUAL */}
